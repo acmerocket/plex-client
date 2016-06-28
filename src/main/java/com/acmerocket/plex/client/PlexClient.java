@@ -27,6 +27,8 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
@@ -42,23 +44,15 @@ import com.acmerocket.plex.client.model.MediaContainer;
  * @author dcarver
  * 
  */
-public class PlexappFactory {
+public class PlexClient {
+    private final static Logger LOGGER = Logger.getLogger(PlexClient.class.getName()); 
+    
+	private final ResourcePaths resourcePath;
+	private final Serializer serializer;
 
-	private static PlexappFactory instance = null;
-
-	private ResourcePaths resourcePath = null;
-	private Serializer serializer = null;
-
-	private PlexappFactory(Configuration config) {
+	public PlexClient(Configuration config) {
 		resourcePath = new ResourcePaths(config);
 		serializer = new Persister();
-	}
-
-	public static PlexappFactory getInstance(Configuration config) {
-		if (instance == null) {
-			instance = new PlexappFactory(config);
-		}
-		return instance;
 	}
 
 	/**
@@ -95,10 +89,16 @@ public class PlexappFactory {
 	 * @return MediaContainer the media container for the library
 	 * @throws Exception
 	 */
-	public MediaContainer retrieveSections() throws Exception {
-		String sectionsURL = resourcePath.getSectionsURL();
-		MediaContainer mediaContainer = serializeResource(sectionsURL);
-
+	public MediaContainer retrieveSections() {
+		MediaContainer mediaContainer = null;
+		
+        try {
+            mediaContainer = serializeResource(resourcePath.getSectionsURL());
+        }
+        catch (IOException e) {
+            LOGGER.log(Level.INFO, "Sections response could not be desreialized", e);
+        }
+        
 		return mediaContainer;
 	}
 	
@@ -288,15 +288,18 @@ public class PlexappFactory {
 	 * @throws IOException
 	 * @throws Exception
 	 */
-	private MediaContainer serializeResource(String resourceURL)
-			throws MalformedURLException, IOException, Exception {
+	private MediaContainer serializeResource(String resourceURL) throws MalformedURLException, IOException {
 		MediaContainer mediaContainer;
 		URL url = new URL(resourceURL);
 		HttpURLConnection con = (HttpURLConnection) url.openConnection();
 		// We only want the updated data if something has changed.
 		con.addRequestProperty("Cache-Control", "max-age=0");
-		mediaContainer = serializer.read(MediaContainer.class,
-				con.getInputStream(), false);
+		try {
+            mediaContainer = serializer.read(MediaContainer.class, con.getInputStream(), false);
+        }
+        catch (Exception e) {
+            throw new IOException(e);
+        }
 		return mediaContainer;
 	}
 	
@@ -304,6 +307,4 @@ public class PlexappFactory {
 		MediaContainer container = serializer.read(MediaContainer.class, xmlString, false);
 		return container;
 	}
-
-
 }

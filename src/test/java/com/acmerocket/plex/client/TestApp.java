@@ -1,6 +1,12 @@
 package com.acmerocket.plex.client;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import com.acmerocket.plex.client.model.MediaContainer;
+
 public class TestApp {
+    private final static Logger LOGGER = Logger.getLogger(TestApp.class.getName()); 
 
     public static void main(String[] args) {
         String plexServer = args[0]; // silly, meaningless exceptions
@@ -10,6 +16,10 @@ public class TestApp {
         }
         
         Configuration config = new Configuration(plexServer, plexPort);
-        PlexappFactory.getInstance(config).getSectionsURL();
+        PlexClient client = new PlexClient(config);
+        MediaContainer media = client.retrieveSections();
+        
+        LOGGER.log(Level.INFO, "Media: " + media);
+        
     }
 }

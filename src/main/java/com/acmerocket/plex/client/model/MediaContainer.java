@@ -240,5 +240,24 @@ public class MediaContainer {
 	 */
 	public void setParentIndex(String parentIndex) {
 		this.parentIndex = parentIndex;
-	}	
+	}
+
+    /* (non-Javadoc)
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+        final int maxLen = 10;
+        return "MediaContainer [size=" + this.size + ", allowSync=" + this.allowSync + ", " + (this.art != null ? "art=" + this.art + ", " : "")
+                + (this.identifier != null ? "identifier=" + this.identifier + ", " : "")
+                + (this.mediaTagPrefix != null ? "mediaTagPrefix=" + this.mediaTagPrefix + ", " : "") + "mediaTagVersion=" + this.mediaTagVersion + ", "
+                + (this.title1 != null ? "title1=" + this.title1 + ", " : "") + (this.title2 != null ? "title2=" + this.title2 + ", " : "") + "sortAsc="
+                + this.sortAsc + ", " + (this.content != null ? "content=" + this.content + ", " : "")
+                + (this.viewGroup != null ? "viewGroup=" + this.viewGroup + ", " : "") + "viewMode=" + this.viewMode + ", "
+                + (this.parentPosterURL != null ? "parentPosterURL=" + this.parentPosterURL + ", " : "")
+                + (this.parentIndex != null ? "parentIndex=" + this.parentIndex + ", " : "")
+                + (this.directories != null ? "directories=" + this.directories.subList(0, Math.min(this.directories.size(), maxLen)) + ", " : "")
+                + (this.videos != null ? "videos=" + this.videos.subList(0, Math.min(this.videos.size(), maxLen)) + ", " : "")
+                + (this.tracks != null ? "tracks=" + this.tracks.subList(0, Math.min(this.tracks.size(), maxLen)) : "") + "]";
+    }
 }

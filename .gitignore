@@ -16,5 +16,5 @@ target/
 
 # Eclipse build files
 .project
-.classfile
+.classpath
 .settings/

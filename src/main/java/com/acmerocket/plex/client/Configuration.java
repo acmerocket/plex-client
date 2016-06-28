@@ -30,11 +30,9 @@ package com.acmerocket.plex.client;
 public class Configuration {
     public static final int DEFAULT_PORT = 32400;
     
-	private String host;
+	private final String host;
 	private int port = DEFAULT_PORT;
-	
-	public Configuration() {}
-	
+		
 	public Configuration(String host) {
         this.host = host;
     }
@@ -48,15 +46,7 @@ public class Configuration {
 		return host;
 	}
 
-	public void setHost(String host) {
-		this.host = host;
-	}
-
 	public int getPort() {
 		return port;
-	}
-
-	public void setPort(int port) {
-		this.port = port;
 	}
 }
