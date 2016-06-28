@@ -93,7 +93,9 @@ public class PlexClient {
 		MediaContainer mediaContainer = null;
 		
         try {
-            mediaContainer = serializeResource(resourcePath.getSectionsURL());
+            String sectionsUrl = resourcePath.getSectionsURL();
+            LOGGER.info(">> " + sectionsUrl);
+            mediaContainer = serializeResource(sectionsUrl);
         }
         catch (IOException e) {
             LOGGER.log(Level.INFO, "Sections response could not be desreialized", e);
@@ -110,8 +112,9 @@ public class PlexClient {
 	 * @param key the section key
 	 * @throws Exception
 	 */
-	public MediaContainer retrieveSections(String key) throws Exception {
+	public MediaContainer retrieveSections(String key) throws IOException {
 		String sectionsURL = resourcePath.getSectionsURL(key);
+		LOGGER.info(">> " + sectionsURL);
 		MediaContainer mediaContainer = serializeResource(sectionsURL);
 
 		return mediaContainer;

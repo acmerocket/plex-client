@@ -319,6 +319,40 @@ public class Directory extends AbstractPlexObject {
 	public void setLocations(List<Location> locations) {
 		this.locations = locations;
 	}
+
+    /* (non-Javadoc)
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+        //final int maxLen = 10;
+        String dir =  "{" 
+                + "key="+ this.getKey() + " "
+                + (this.title != null ? "title='" + this.title + "' " : "") 
+                + (this.year != null ? "year=" + this.year + " " : "")
+                + (this.type != null ? "type=" + this.type + " " : "") 
+                //+ (this.agent != null ? "agent=" + this.agent + ", " : "")
+                //+ (this.scanner != null ? "scanner=" + this.scanner + ", " : "") 
+                //+ (this.language != null ? "language=" + this.language + ", " : "")
+//                + (this.uuid != null ? "uuid=" + this.uuid + ", " : "") 
+//                + "updatedAt=" + this.updatedAt 
+//                + ", createdAt=" + this.createdAt + ", "
+//                + (this.prompt != null ? "prompt=" + this.prompt + ", " : "") 
+//                + (this.search != null ? "search=" + this.search + ", " : "") 
+//                + "secondary="
+//                + this.secondary + ", " 
+//                + (this.genres != null ? "genres=" + this.genres.subList(0, Math.min(this.genres.size(), maxLen)) + ", " : "")
+//                + (this.locations != null ? "locations=" + this.locations.subList(0, Math.min(this.locations.size(), maxLen)) + ", " : "")
+//                + (this.ratingKey != null ? "ratingKey=" + this.ratingKey + ", " : "") 
+//                + (this.studio != null ? "studio=" + this.studio + ", " : "")
+//                + (this.rating != null ? "rating=" + this.rating + ", " : "") 
+//                + (this.contentRating != null ? "contentRating=" + this.contentRating + ", " : "")
+//                + (this.summary != null ? "summary=" + this.summary + ", " : "") 
+//                + (this.leafCount != null ? "leafCount=" + this.leafCount + ", " : "")
+//                + (this.viewedLeafCount != null ? "viewedLeafCount=" + this.viewedLeafCount : "") 
+                + "}";
+        return dir.trim();
+    }
 	
 	
 }
