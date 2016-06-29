@@ -18,10 +18,11 @@ public class TestApp {
         
         Configuration config = new Configuration(plexServer, plexPort);
         PlexClient client = new PlexClient(config);
-        MediaContainer media = //client.retrieveSections();
-                client.retrieveSections("11/all");
+        MediaContainer response = //client.retrieveSections();
+                //client.retrieveSections("11/all");
+                client.retrieveClients();
         
-        LOGGER.log(Level.INFO, "Media: " + media);
+        LOGGER.log(Level.INFO, "Media: " + response);
         
     }
 }

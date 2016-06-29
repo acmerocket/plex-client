@@ -166,6 +166,18 @@ public class PlexClient {
 		MediaContainer mediaContainer = serializeResource(episodesURL);
 		return mediaContainer;
 	}
+
+	public MediaContainer retrieveClients() {
+	    String url = resourcePath.getClientsUrl();
+	    MediaContainer mediaContainer = null;
+        try {
+            mediaContainer = serializeResource(url);
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+	    return mediaContainer;
+	}
 		
 	public MediaContainer searchMovies(String key, String query) throws Exception {
 		String searchURL = resourcePath.getMovieSearchURL(key, query);

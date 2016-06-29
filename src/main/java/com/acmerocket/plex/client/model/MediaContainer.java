@@ -56,6 +56,9 @@ public class MediaContainer {
 	@Attribute(required=false)
 	private String title2;
 	
+	@ElementList(inline=true,required=false)
+	private List<Client> clients;
+	
 	public String getTitle2() {
 		return title2;
 	}
@@ -248,14 +251,31 @@ public class MediaContainer {
     @Override
     public String toString() {
         final int maxLen = 10;
-        return "MediaContainer {\n"
-                + (this.identifier != null ? "\t identifier=" + this.identifier + "\n" : "")
-                + (this.title1 != null ? "\t title1=" + this.title1 + "\n" : "") 
-                + (this.title2 != null ? "\t title2=" + this.title2 + "\n" : "") 
-                + (this.content != null ? "\t content=" + this.content + "\n" : "")
-                + (this.directories != null ? "\t directories=" + this.directories.subList(0, Math.min(this.directories.size(), maxLen)) + ", \n" : "")
-                //+ (this.videos != null ? "videos=" + this.videos.subList(0, Math.min(this.videos.size(), maxLen)) + ", " : "")
-                //+ (this.tracks != null ? "tracks=" + this.tracks.subList(0, Math.min(this.tracks.size(), maxLen)) : "") 
-                + "}";
+        return "MediaContainer [size=" + this.size + ", allowSync=" + this.allowSync + ", " + (this.art != null ? "art=" + this.art + ", " : "")
+                + (this.identifier != null ? "identifier=" + this.identifier + ", " : "")
+                + (this.mediaTagPrefix != null ? "mediaTagPrefix=" + this.mediaTagPrefix + ", " : "") + "mediaTagVersion=" + this.mediaTagVersion + ", "
+                + (this.title1 != null ? "title1=" + this.title1 + ", " : "") + (this.title2 != null ? "title2=" + this.title2 + ", " : "")
+                + (this.clients != null ? "clients=" + this.clients.subList(0, Math.min(this.clients.size(), maxLen)) + ", " : "") + "sortAsc=" + this.sortAsc
+                + ", " + (this.content != null ? "content=" + this.content + ", " : "") + (this.viewGroup != null ? "viewGroup=" + this.viewGroup + ", " : "")
+                + "viewMode=" + this.viewMode + ", " + (this.parentPosterURL != null ? "parentPosterURL=" + this.parentPosterURL + ", " : "")
+                + (this.parentIndex != null ? "parentIndex=" + this.parentIndex + ", " : "")
+                + (this.directories != null ? "directories=" + this.directories.subList(0, Math.min(this.directories.size(), maxLen)) + ", " : "")
+                + (this.videos != null ? "videos=" + this.videos.subList(0, Math.min(this.videos.size(), maxLen)) + ", " : "")
+                + (this.tracks != null ? "tracks=" + this.tracks.subList(0, Math.min(this.tracks.size(), maxLen)) : "") + "]";
     }
+
+    /**
+     * @return the clients
+     */
+    public List<Client> getClients() {
+        return this.clients;
+    }
+
+    /**
+     * @param clients the clients to set
+     */
+    public void setClients(List<Client> clients) {
+        this.clients = clients;
+    }
+
 }

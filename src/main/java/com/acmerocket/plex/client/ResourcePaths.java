@@ -66,8 +66,6 @@ public class ResourcePaths {
 		return getHostPort() + SECTIONS_PATH + key + "/" + category + "/";
 	}
 	
-	
-	
 	protected String getHostPort() {
 		return "http://" + config.getHost() + ":" + config.getPort();
 	}
@@ -83,7 +81,6 @@ public class ResourcePaths {
 	public String getMovieMetaDataURL(String key) {
 		return getHostPort() + key;
 	}
-	
 	
 	public String getWatchedUrl(String key) {
 		return getRoot() + ":/scrobble?key=" + key + "&identifier=com.plexapp.plugins.library";
@@ -140,5 +137,8 @@ public class ResourcePaths {
     	}
         return getHostPort() + "/photo/:/transcode?url=" + encodedUrl + "&width=" + width + "&height=" + height;
     }
-	
+    
+    public String getClientsUrl() {
+        return this.getRoot() + "clients";
+    }
 }
