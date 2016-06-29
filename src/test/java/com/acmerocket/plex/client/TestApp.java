@@ -16,8 +16,12 @@ public class TestApp {
             plexPort = Integer.parseInt(args[1]);
         }
         
-        Configuration config = new Configuration(plexServer, plexPort);
+        Configuration config = //new Configuration(plexServer, plexPort);
+                new Configuration("192.168.1.107", 32500);
         PlexClient client = new PlexClient(config);
+        
+        client.pause();
+        
         MediaContainer response = //client.retrieveSections();
                 //client.retrieveSections("11/all");
                 client.retrieveClients();

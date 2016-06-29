@@ -41,7 +41,7 @@ public class GdmHandler {
 			socket.send(packet);
 			//Log.d("GDMService", "Search Packet Broadcasted");
 
-			byte[] buf = new byte[256];
+			byte[] buf = new byte[512];
 			packet = new DatagramPacket(buf, buf.length);
 			socket.setSoTimeout(2000);
 			boolean listening = true;
