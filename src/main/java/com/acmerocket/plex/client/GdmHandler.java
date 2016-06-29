@@ -15,31 +15,40 @@
  */
 package com.acmerocket.plex.client;
 
-/**
- * @author philion
- *
- */
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.StringReader;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketTimeoutException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.acmerocket.plex.client.model.PlexMediaServer;
 
 public class GdmHandler {
+	private static final Logger LOG = LoggerFactory.getLogger(GdmHandler.class);
+	
 	public static final String MSG_RECEIVED = ".GDMService.MESSAGE_RECEIVED";
 	public static final String SOCKET_CLOSED = ".GDMService.SOCKET_CLOSED";
 	private static final String multicast = "239.0.0.250";
 
-	public static void handle() {
-		try {
-			DatagramSocket socket = new DatagramSocket(32414);
+	public static List<PlexMediaServer> getServers() {
+		List<PlexMediaServer> servers = new ArrayList<>();
+		
+		try (
+				DatagramSocket socket = new DatagramSocket(32414);
+			){
 			socket.setBroadcast(true);
 			String data = "M-SEARCH * HTTP/1.1\r\n\r\n";
 			DatagramPacket packet = new DatagramPacket(data.getBytes(), data.length(), InetAddress.getByName(multicast), 32414);
 			
 			socket.send(packet);
-			//Log.d("GDMService", "Search Packet Broadcasted");
 
 			byte[] buf = new byte[256];
 			packet = new DatagramPacket(buf, buf.length);
@@ -50,23 +59,58 @@ public class GdmHandler {
 					socket.receive(packet);
 					String packetData = new String(packet.getData());
 					if (packetData.contains("HTTP/1.0 200 OK")) {
-						System.out.println(packetData);
+						servers.add(parseGdmResponse(packetData));
 					}
 				} 
 				catch (SocketTimeoutException e) {
-					System.err.println(e);
+					//System.err.println(e);
 					listening = false;
 				}
-
 			}
 		} 
 		catch (IOException e) {
 			System.err.println(e);
 		}
+		
+		return servers;
+	}
+	
+	private static PlexMediaServer parseGdmResponse(String packet) {
+		LOG.debug("Parsing: {}", packet);
+		PlexMediaServer server = new PlexMediaServer();
+		
+		try {
+			BufferedReader in = new BufferedReader(new StringReader(packet));
+			String line = null;
+			while ((line = in.readLine()) != null) {
+				String[] args = line.split(":");
+				if (args.length == 2) {
+					String key = args[0].trim();
+					String value = args[1].trim();
+					
+					switch (key) {
+						case "Host": server.setHost(value); break;
+						case "Name": server.setName(value); break;
+						case "Port": server.setPort(Integer.parseInt(value)); break;
+						case "Resource-Identifier": server.setResourceId(value); break;
+						case "Updated-At": server.setUpdatedAt(new Date(Long.parseLong(value))); break;
+						case "Version": server.setVersion(value); break;
+					}
+					
+					//LOG.info("{}={}, server: {}", key, value, server);
+				}
+			}
+		} 
+		catch (IOException e) {
+			LOG.error("Error parsing", e);
+			LOG.debug("Error packet: {}", packet);
+		}
+		
+		return server;
 	}
 	
 	public static void main(String[] args) {
-		handle();
+		LOG.info("Servers: {}", GdmHandler.getServers());
 	}
 }
 

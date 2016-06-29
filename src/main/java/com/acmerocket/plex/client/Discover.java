@@ -15,14 +15,32 @@
  */
 package com.acmerocket.plex.client;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.acmerocket.plex.client.model.Client;
+import com.acmerocket.plex.client.model.PlexMediaServer;
+
 /**
  * @author philion
  *
  */
 public class Discover {
 	
-	public void getClients() {
+	public List<Client> getClients() {
+		List<Client> clients = new ArrayList<>();
 		
+		// all servers
+		
+		
+		// all clients per server
+		
+		// all GDM
+		
+		return clients;
 	}
-
+	
+	public static List<PlexMediaServer> discoverServers() {
+		return GdmHandler.getServers();
+	}
 }

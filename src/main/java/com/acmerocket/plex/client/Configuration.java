@@ -32,6 +32,8 @@ public class Configuration {
     
 	private final String host;
 	private int port = DEFAULT_PORT;
+	
+	private String clientId; // X-Plex-Client-Identifier for client
 		
 	public Configuration(String host) {
         this.host = host;
@@ -41,6 +43,12 @@ public class Configuration {
 	    this.host = host;
 	    this.port = port;
 	}
+	
+	public Configuration(String host, int port, String clientId) {
+	    this.host = host;
+	    this.port = port;
+	    this.clientId = clientId;
+	}
 
 	public String getHost() {
 		return host;
@@ -48,5 +56,13 @@ public class Configuration {
 
 	public int getPort() {
 		return port;
+	}
+
+	public String getClientId() {
+		return clientId;
+	}
+
+	public void setClientId(String clientId) {
+		this.clientId = clientId;
 	}
 }

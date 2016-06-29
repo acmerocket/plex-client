@@ -3,6 +3,9 @@ package com.acmerocket.plex.client.model;
 import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.Root;
 
+import com.acmerocket.plex.client.Configuration;
+import com.acmerocket.plex.client.PlexClient;
+
 @Root(name="Server")
 public class Client {
     
@@ -205,6 +208,10 @@ public class Client {
                 + (this.deviceClass != null ? "deviceClass=" + this.deviceClass + ", " : "")
                 + (this.protocolVersion != null ? "protocolVersion=" + this.protocolVersion + ", " : "")
                 + (this.protocolCapabilities != null ? "protocolCapabilities=" + this.protocolCapabilities : "") + "]";
+    }
+    
+    public PlexClient getPlexClient() {
+    	return new PlexClient(new Configuration(this.host, this.port, this.machineId));
     }
     
     //<Server 
