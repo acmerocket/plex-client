@@ -10,12 +10,13 @@ public class TestApp {
     	System.setProperty("org.slf4j.simpleLogger.dateTimeFormat", "yyyy-MM-dd HH:mm:ss");
     	System.setProperty("org.slf4j.simpleLogger.showThreadName", "false");
 	}
-    private final static org.slf4j.Logger LOG = org.slf4j.LoggerFactory.getLogger(TestApp.class); 
+    //private final static org.slf4j.Logger LOG = org.slf4j.LoggerFactory.getLogger(TestApp.class); 
 
     public static void main(String[] args) throws Exception {
     	
     	Plex plex = new Plex();
     	plex.pause();
+    	plex.dump();
     	
 //    	LOG.info("Discoving all clients...");
 //    	
