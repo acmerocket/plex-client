@@ -26,6 +26,7 @@ package com.acmerocket.plex.client.model;
 import java.util.List;
 
 import org.simpleframework.xml.Attribute;
+import org.simpleframework.xml.Element;
 import org.simpleframework.xml.ElementList;
 import org.simpleframework.xml.Root;
 
@@ -34,7 +35,7 @@ import org.simpleframework.xml.Root;
  *
  */
 @Root(name="Track")
-public class Track {
+public class Track { // Playable interface
 
 	@Attribute(name="key",required=true)
 	private String key;
@@ -65,6 +66,9 @@ public class Track {
 	
 	@ElementList(inline=true,name="Media",required=true)
 	private List<Media> medias;
+	
+	@Element(name="Player",required=false)
+	private Player player;
 
 	public String getKey() {
 		return key;
@@ -144,6 +148,32 @@ public class Track {
 
 	public void setMedias(List<Media> medias) {
 		this.medias = medias;
+	}
+
+	@Override
+	public String toString() {
+		final int maxLen = 10;
+		return "Track [" + (key != null ? "key=" + key + ", " : "") + (title != null ? "title=" + title + ", " : "")
+				+ (summary != null ? "summary=" + summary + ", " : "") + (type != null ? "type=" + type + ", " : "")
+				+ (parentKey != null ? "parentKey=" + parentKey + ", " : "") + "index=" + index + ", duration="
+				+ duration + ", timeAdded=" + timeAdded + ", timeUpdated=" + timeUpdated + ", "
+				+ (medias != null ? "medias=" + medias.subList(0, Math.min(medias.size(), maxLen)) + ", " : "")
+				+ (player != null ? "player=" + player : "") + "]";
+	}
+
+	public Player getPlayer() {
+		return player;
+	}
+
+	public void setPlayer(Player player) {
+		this.player = player;
+	}
+
+	/**
+	 * @return
+	 */
+	public boolean isPlaying() {
+		return this.player != null && "playing".equals(this.player.getState());
 	}
 	
 }

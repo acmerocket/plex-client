@@ -141,4 +141,12 @@ public class ResourcePaths {
     public String getClientsUrl() {
         return this.getRoot() + "clients";
     }
+    
+    public String getSessionsUrl() {
+    	return this.getRoot() + "status/sessions";
+    }
+    
+    protected Configuration getConfig() {
+    	return this.config;
+    }
 }

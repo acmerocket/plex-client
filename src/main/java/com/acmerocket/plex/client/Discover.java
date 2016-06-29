@@ -27,20 +27,21 @@ import com.acmerocket.plex.client.model.PlexMediaServer;
  */
 public class Discover {
 	
-	public List<Client> getClients() {
+	public static List<Client> clients() {
 		List<Client> clients = new ArrayList<>();
 		
 		// all servers
-		
-		
-		// all clients per server
-		
-		// all GDM
+		for (PlexMediaServer server : Discover.servers()) {
+			PlexClient plex = server.plexClient();
+			for (Client client : plex.retrieveClients().getClients()) {
+				clients.add(client);
+			}
+		}
 		
 		return clients;
 	}
 	
-	public static List<PlexMediaServer> discoverServers() {
+	public static List<PlexMediaServer> servers() {
 		return GdmHandler.getServers();
 	}
 }

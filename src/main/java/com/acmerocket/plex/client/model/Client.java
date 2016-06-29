@@ -210,7 +210,7 @@ public class Client {
                 + (this.protocolCapabilities != null ? "protocolCapabilities=" + this.protocolCapabilities : "") + "]";
     }
     
-    public PlexClient getPlexClient() {
+    public PlexClient plexClient() {
     	return new PlexClient(new Configuration(this.host, this.port, this.machineId));
     }
     

@@ -79,6 +79,8 @@ public class Video extends AbstractPlexObject {
 
 	@Attribute(name="grandparentTitle", required=false)
 	private String grandParentTitle;	
+	
+	private Player player;
 
 	public String getGrandParentTitle() {
 		return grandParentTitle;
@@ -444,5 +446,21 @@ public class Video extends AbstractPlexObject {
 	public void setSeason(String season) {
 		this.season = season;
 	}
-	
+
+	@Override
+	public String toString() {
+		return title + (year != null ? "(" + year + ")" : "");
+	}
+
+	public Player getPlayer() {
+		return player;
+	}
+
+	public void setPlayer(Player player) {
+		this.player = player;
+	}
+
+	public boolean isPlaying() {
+		return this.player != null && "playing".equals(this.player.getState());
+	}
 }

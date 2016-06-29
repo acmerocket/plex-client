@@ -94,7 +94,6 @@ public class MediaContainer {
 	@ElementList(inline=true,required=false)
 	private List<Track> tracks;
 	
-	
 	public List<Directory> getDirectories() {
 		return directories;
 	}

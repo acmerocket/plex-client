@@ -90,7 +90,7 @@ public class PlexMediaServer {
 				+ (version != null ? "version=" + version : "") + "]";
 	}
 	
-	public PlexClient getClient() {
+	public PlexClient plexClient() {
 		return new PlexClient(new Configuration(this.name, this.port, this.resourceId));
 	}
 }

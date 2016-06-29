@@ -1,33 +1,36 @@
 package com.acmerocket.plex.client;
 
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.acmerocket.plex.client.model.Client;
-import com.acmerocket.plex.client.model.MediaContainer;
-import com.acmerocket.plex.client.model.PlexMediaServer;
-
 public class TestApp {
-    private final static Logger LOG = LoggerFactory.getLogger(TestApp.class); 
+	static {
+		// init simple logging
+    	System.setProperty("org.slf4j.simpleLogger.logFile", "System.out");
+    	System.setProperty("org.slf4j.simpleLogger.defaultLogLevel", "debug");
+    	System.setProperty("org.slf4j.simpleLogger.log.com.acmerocket", "debug");
+    	System.setProperty("org.slf4j.simpleLogger.showDateTime", "true");
+    	System.setProperty("org.slf4j.simpleLogger.dateTimeFormat", "yyyy-MM-dd HH:mm:ss");
+    	System.setProperty("org.slf4j.simpleLogger.showThreadName", "false");
+	}
+    private final static org.slf4j.Logger LOG = org.slf4j.LoggerFactory.getLogger(TestApp.class); 
 
     public static void main(String[] args) throws Exception {
     	
-    	LOG.info("Discoving all clients...");
+    	Plex plex = new Plex();
+    	plex.pause();
     	
-    	for (PlexMediaServer server : Discover.discoverServers()) {
-    		//LOG.info("Server: {}", server);
-    		
-    		PlexClient pmsClient = server.getClient();
-    		MediaContainer response = pmsClient.retrieveClients();
-    		//LOG.info(".. Clients: {}", response);
-    		
-    		Client player = response.getClients().get(0);
-    		LOG.info("Pausing client: {}", player.getName());
-
-    		player.getPlexClient().pause();
-    		
-    		
-    	}
+//    	LOG.info("Discoving all clients...");
+//    	
+//    	for (Client client : Discover.clients()) {
+//    		//LOG.info("Server: {}", server);
+//    		
+//    		//PlexClient pmsClient = server.getClient();
+//    		//MediaContainer response = pmsClient.retrieveClients();
+//    		LOG.info("Client: {}", client);
+//    		
+//    		//Client player = response.getClients().get(0);
+//    		
+//    		//LOG.info("Pausing client: {}", player.getName());
+//    		//player.getPlexClient().pause();
+//    		
+//    	}
     }
 }

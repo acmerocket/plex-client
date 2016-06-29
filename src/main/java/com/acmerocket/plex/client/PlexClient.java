@@ -180,6 +180,19 @@ public class PlexClient {
         }
 	    return mediaContainer;
 	}
+	
+	public MediaContainer retrieveSessions() {
+	    String url = resourcePath.getSessionsUrl();
+	    LOG.info(">> {}", url);
+	    MediaContainer mediaContainer = null;
+        try {
+            mediaContainer = serializeResource(url);
+        }
+        catch (IOException e) {
+        	LOG.error("Unable to get sessions: {}", e);
+        }
+	    return mediaContainer;
+	}
 		
 	public MediaContainer searchMovies(String key, String query) throws Exception {
 		String searchURL = resourcePath.getMovieSearchURL(key, query);
@@ -350,5 +363,11 @@ public class PlexClient {
 	public MediaContainer serializeResourceFromString(String xmlString) throws Exception {
 		MediaContainer container = serializer.read(MediaContainer.class, xmlString, false);
 		return container;
+	}
+
+	@Override
+	public String toString() {
+		Configuration config = resourcePath.getConfig();
+		return "[" + config.getHost() + ":" + config.getPort() + ", id=" + this.clientId + "]";
 	}
 }

@@ -76,7 +76,7 @@ public class GdmHandler {
 	}
 	
 	private static PlexMediaServer parseGdmResponse(String packet) {
-		LOG.debug("Parsing: {}", packet);
+		LOG.trace("Parsing: {}", packet);
 		PlexMediaServer server = new PlexMediaServer();
 		
 		try {
