@@ -116,7 +116,7 @@ public class PlexClient {
 	 */
 	public MediaContainer retrieveSections(String key) throws IOException {
 		String sectionsURL = resourcePath.getSectionsURL(key);
-		LOG.info(">> {}", sectionsURL);
+		LOG.debug(">> {}", sectionsURL);
 		MediaContainer mediaContainer = serializeResource(sectionsURL);
 
 		return mediaContainer;
@@ -336,13 +336,13 @@ public class PlexClient {
 		HttpURLConnection con = (HttpURLConnection) url.openConnection();
 		// We only want the updated data if something has changed.
 		con.addRequestProperty("Cache-Control", "max-age=0");
-        con.addRequestProperty("X-Plex-Client-Identifier", "max-age=0");
+        con.addRequestProperty("X-Plex-Client-Identifier", this.clientId);
 		try {
             mediaContainer = serializer.read(MediaContainer.class, con.getInputStream(), false);
         }
         catch (Exception e) {
-            LOG.warn("Error loading {}", resourceURL, e);
-            //throw new IOException(e);
+            //LOG.warn("Error loading {}", resourceURL, e);
+            throw new IOException(e);
         }
 		return mediaContainer;
 	}
