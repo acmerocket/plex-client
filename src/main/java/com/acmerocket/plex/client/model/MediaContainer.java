@@ -32,7 +32,7 @@ import org.simpleframework.xml.Root;
 @Root(name="MediaContainer")
 public class MediaContainer {
 
-	@Attribute(required=true)
+	@Attribute(required=false)
 	private int size;
 	
 	@Attribute(required=false)

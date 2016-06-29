@@ -50,9 +50,9 @@ public class GdmHandler {
 			
 			socket.send(packet);
 
-			byte[] buf = new byte[256];
+			byte[] buf = new byte[512];
 			packet = new DatagramPacket(buf, buf.length);
-			socket.setSoTimeout(2000);
+			socket.setSoTimeout(1000);
 			boolean listening = true;
 			while (listening) {
 				try {

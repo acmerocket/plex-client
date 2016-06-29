@@ -27,11 +27,11 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.simpleframework.xml.Serializer;
 import org.simpleframework.xml.core.Persister;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.acmerocket.plex.client.model.MediaContainer;
 
@@ -45,14 +45,16 @@ import com.acmerocket.plex.client.model.MediaContainer;
  * 
  */
 public class PlexClient {
-    private final static Logger LOGGER = Logger.getLogger(PlexClient.class.getName()); 
+	private static final Logger LOG = LoggerFactory.getLogger(GdmHandler.class);
     
 	private final ResourcePaths resourcePath;
 	private final Serializer serializer;
+	private final String clientId;
 
 	public PlexClient(Configuration config) {
 		resourcePath = new ResourcePaths(config);
 		serializer = new Persister();
+		this.clientId = config.getClientId();
 	}
 
 	/**
@@ -94,11 +96,11 @@ public class PlexClient {
 		
         try {
             String sectionsUrl = resourcePath.getSectionsURL();
-            LOGGER.info(">> " + sectionsUrl);
+            LOG.info(">> {}", sectionsUrl);
             mediaContainer = serializeResource(sectionsUrl);
         }
         catch (IOException e) {
-            LOGGER.log(Level.INFO, "Sections response could not be desreialized", e);
+            LOG.error("Sections response could not be desreialized", e);
         }
         
 		return mediaContainer;
@@ -114,7 +116,7 @@ public class PlexClient {
 	 */
 	public MediaContainer retrieveSections(String key) throws IOException {
 		String sectionsURL = resourcePath.getSectionsURL(key);
-		LOGGER.info(">> " + sectionsURL);
+		LOG.info(">> {}", sectionsURL);
 		MediaContainer mediaContainer = serializeResource(sectionsURL);
 
 		return mediaContainer;
@@ -221,7 +223,6 @@ public class PlexClient {
 		return requestSuccessful(resourceURL);
 	}
 	
-
 	/**
 	 * @param resourceURL
 	 * @param con
@@ -247,52 +248,78 @@ public class PlexClient {
 		return false;
 	}
 	
-	public String getProgressURL(String key, String offset) {
-		return resourcePath.getProgressUrl(key, offset);
-	}
+//	public String getProgressURL(String key, String offset) {
+//		return resourcePath.getProgressUrl(key, offset);
+//	}
+//	
+//	public String getMovieSearchURL(String key, String query) {
+//		return resourcePath.getMovieSearchURL(key, query);
+//	}
+//	
+//	public String getTVShowSearchURL(String key, String query) {
+//		return resourcePath.getMovieSearchURL(key, query);
+//	}
+//
+//	public String getEpisodeSearchURL(String key, String query) {
+//		return resourcePath.getMovieSearchURL(key, query);
+//	}
+//	
+//	public String getMediaTagURL(String resourceType, String resourceName, String identifier) {
+//		return resourcePath.getMediaTagURL(resourceType, resourceName, identifier);
+//	}
+//	
+//	public String getSectionsURL(String key, String category) {
+//		return resourcePath.getSectionsURL(key, category);
+//	}
 	
-	public String getMovieSearchURL(String key, String query) {
-		return resourcePath.getMovieSearchURL(key, query);
-	}
+//	public String getSectionsURL() {
+//		return resourcePath.getSectionsURL();
+//	}
+//	
+//	public String getSectionsUrl(String key) {
+//		return resourcePath.getSectionsURL(key);
+//	}
+//	
+//	public String getMovieMetadataURL(String key) {
+//		return resourcePath.getMovieMetaDataURL(key);
+//	}
+//	
+//	public String getEpisodesURL(String key) {
+//		return resourcePath.getEpisodesURL(key);
+//	}
 	
-	public String getTVShowSearchURL(String key, String query) {
-		return resourcePath.getMovieSearchURL(key, query);
-	}
+	//public String getSeasonsURL(String key) {
+	//	return resourcePath.getSeasonsURL(key);
+	//}
 
-	public String getEpisodeSearchURL(String key, String query) {
-		return resourcePath.getMovieSearchURL(key, query);
-	}
-	
-	public String getMediaTagURL(String resourceType, String resourceName, String identifier) {
-		return resourcePath.getMediaTagURL(resourceType, resourceName, identifier);
-	}
-	
-	public String getSectionsURL(String key, String category) {
-		return resourcePath.getSectionsURL(key, category);
-	}
-	
-	public String getSectionsURL() {
-		return resourcePath.getSectionsURL();
-	}
-	
-	public String getSectionsUrl(String key) {
-		return resourcePath.getSectionsURL(key);
-	}
-	
-	public String getMovieMetadataURL(String key) {
-		return resourcePath.getMovieMetaDataURL(key);
-	}
-	
-	public String getEpisodesURL(String key) {
-		return resourcePath.getEpisodesURL(key);
-	}
-	
-	public String getSeasonsURL(String key) {
-		return resourcePath.getSeasonsURL(key);
-	}
-
-    public String getImageURL(String url, int width, int height) {
-        return resourcePath.getImageURL(url, width, height);
+    //public String getImageURL(String url, int width, int height) {
+    //    return resourcePath.getImageURL(url, width, height);
+    //}
+    
+    public void pause() {
+        // pause pause: /player/playback/pause
+        
+        // http://<CLIENT IP>:<CLIENT PORT>/player/playback/playMedia
+        // ?key=%2Flibrary%2Fmetadata%2F<MEDIA ID>
+        // &offset=0
+        // &X-Plex-Client-Identifier=<CLIENT ID>
+        // &machineIdentifier=<SERVER ID>
+        // &address=<SERVER IP>
+        // &port=<SERVER PORT>&protocol=http
+        // &path=http%3A%2F%2F<SERVER IP>%3A<SERVER PORT>%2Flibrary%2Fmetadata%2F<MEDIA ID>
+    	//
+    	// http://server:port/player/playback/pause?X-Plex-Client-Identifier=fda839cf-c8f7-4bd9-98bc-0b4f037c163d
+    	
+        String url = resourcePath.getRoot() + "player/playback/pause?X-Plex-Client-Identifier=" + this.clientId;
+        MediaContainer mediaContainer = null;
+        try {
+            mediaContainer = serializeResource(url);
+            System.out.println(mediaContainer);
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+        }
+        //return mediaContainer;
     }
 
     /**
@@ -304,16 +331,18 @@ public class PlexClient {
 	 * @throws Exception
 	 */
 	private MediaContainer serializeResource(String resourceURL) throws MalformedURLException, IOException {
-		MediaContainer mediaContainer;
+		MediaContainer mediaContainer = null;
 		URL url = new URL(resourceURL);
 		HttpURLConnection con = (HttpURLConnection) url.openConnection();
 		// We only want the updated data if something has changed.
 		con.addRequestProperty("Cache-Control", "max-age=0");
+        con.addRequestProperty("X-Plex-Client-Identifier", "max-age=0");
 		try {
             mediaContainer = serializer.read(MediaContainer.class, con.getInputStream(), false);
         }
         catch (Exception e) {
-            throw new IOException(e);
+            LOG.warn("Error loading {}", resourceURL, e);
+            //throw new IOException(e);
         }
 		return mediaContainer;
 	}
